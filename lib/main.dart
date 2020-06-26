@@ -100,7 +100,7 @@ class MyAppState extends State<MyApp> {
   NoiseMeter _noiseMeter = new NoiseMeter();
 
   double _lastVolume = 0;
-  double _activeMin = 30;
+  double _activeMin = 20;
 
   bool playing = true;
   bool _mirrored = false;
@@ -179,11 +179,13 @@ class MyAppState extends State<MyApp> {
               ),
               PopupMenuButton(
                 onSelected: (value) => setState(() {
+                  
                   if (value == AudioSignal.none)
                     stopRecorder();
                   else {
                     startRecorder();
                     _audioSignal = value;
+                    
                   }
                 }),
                 itemBuilder: (context) => [

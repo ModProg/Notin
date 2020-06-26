@@ -44,7 +44,7 @@ android {
 
     defaultConfig {
         applicationId "de.modprog.noting"
-        minSdkVersion 20
+        minSdkVersion 16
         targetSdkVersion 30
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
