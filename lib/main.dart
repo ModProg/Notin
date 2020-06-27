@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:noise_meter/noise_meter.dart';
+import 'package:noting/utils.dart';
 
 void main() => runApp(MyApp());
 
@@ -101,6 +102,7 @@ class MyAppState extends State<MyApp> {
 
   double _lastVolume = 0;
   double _activeMin = 20;
+  final _queue = LimitedQueue<double>(5);
 
   bool playing = true;
   bool _mirrored = false;
@@ -179,13 +181,11 @@ class MyAppState extends State<MyApp> {
               ),
               PopupMenuButton(
                 onSelected: (value) => setState(() {
-                  
                   if (value == AudioSignal.none)
                     stopRecorder();
                   else {
                     startRecorder();
                     _audioSignal = value;
-                    
                   }
                 }),
                 itemBuilder: (context) => [
@@ -271,6 +271,11 @@ class MyAppState extends State<MyApp> {
             (_audioSignal == AudioSignal.end ||
                 _audioSignal == AudioSignal.both)) next(manual: false);
         _lastVolume = data.maxDecibel;
+
+        _queue.push(data.meanDecibel);
+        if (_queue.full) {
+          
+        }
       });
       this.setState(() {
         this._isRecording = true;
